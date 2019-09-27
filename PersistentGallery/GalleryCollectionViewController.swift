@@ -10,7 +10,7 @@ import UIKit
 
 class GalleryCollectionViewController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     private var cellWidth = 160.0
-    var data = [(url: URL, aspectRatio: Double)]()
+    var gallery = Gallery(data: [])
 
     private var flowLayout: UICollectionViewFlowLayout? {
         return collectionView?.collectionViewLayout as? UICollectionViewFlowLayout
@@ -27,6 +27,14 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         collectionView.dragDelegate = self
         collectionView.dropDelegate = self
         collectionView.dragInteractionEnabled = true
+
+        document?.open { success in
+            if success {
+                self.title = self.document?.localizedName
+                self.gallery = self.document?.gallery ?? Gallery(data: [])
+                self.collectionView.reloadData()
+            }
+        }
     }
 
     @IBAction func zoom(_ sender: UIPinchGestureRecognizer) {
@@ -34,22 +42,6 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             cellWidth *= Double(sender.scale)
             flowLayout?.invalidateLayout()
             sender.scale = 1.0
-        }
-    }
-    
-    // MARK: - Model
-   
-    var gallery: Gallery? {
-        get {
-            let galleryData = data.map { Gallery.GalleryData(url: $0.url, aspectRatio: $0.aspectRatio) }
-            return Gallery(data: galleryData)
-        }
-        set {
-            data = []
-            newValue?.data.forEach {
-                data.append(($0.url, $0.aspectRatio))
-            }
-            collectionView.reloadData()
         }
     }
     
@@ -73,16 +65,6 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        document?.open { success in
-            if success {
-                self.title = self.document?.localizedName
-                self.gallery = self.document?.gallery
-            }
-        }
-    }
-    
     // MARK: - UICollectionViewDataSource
 
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -90,13 +72,13 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return data.count
+        return gallery.data.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "galleryCollectionViewCell", for: indexPath)
         if let galleryCollectionViewCell = cell as? GalleryCollectionViewCell {
-            let cellData = data[indexPath.item]
+            let cellData = gallery.data[indexPath.item]
             galleryCollectionViewCell.spinner.startAnimating()
             galleryCollectionViewCell.imageView.image = nil
             DispatchQueue.global(qos: .userInitiated).async {
@@ -147,7 +129,7 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize
     {
-        return CGSize(width: cellWidth, height: cellWidth / data[indexPath.item].aspectRatio)
+        return CGSize(width: cellWidth, height: cellWidth / gallery.data[indexPath.item].aspectRatio)
     }
     
     // MARK: UICollectionViewDragDelegate
@@ -166,7 +148,7 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         itemProvider.registerObject(NSURL(), visibility: .all)
         itemProvider.registerObject(UIImage(), visibility: .all)
         let dragItem = UIDragItem(itemProvider: itemProvider)
-        dragItem.localObject = data[indexPath.item]
+        dragItem.localObject = gallery.data[indexPath.item]
         return [dragItem]
     }
     
@@ -185,10 +167,10 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
         let destinationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
         for item in coordinator.items {
             if let sourceIndexPath = item.sourceIndexPath {
-                if let cellData = item.dragItem.localObject as? (URL, Double) {
+                if let cellData = item.dragItem.localObject as? Gallery.GalleryData {
                     collectionView.performBatchUpdates({
-                        data.remove(at: sourceIndexPath.item)
-                        data.insert(cellData, at: destinationIndexPath.item)
+                        gallery.data.remove(at: sourceIndexPath.item)
+                        gallery.data.insert(cellData, at: destinationIndexPath.item)
                         collectionView.deleteItems(at: [sourceIndexPath])
                         collectionView.insertItems(at: [destinationIndexPath])
                         documentChanged()
@@ -208,7 +190,7 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
                             let placeholderContext = coordinator.drop(item.dragItem, to: UICollectionViewDropPlaceholder(insertionIndexPath: destinationIndexPath, reuseIdentifier: "placeholderCollectionViewCell"))
                             if let url = provider as? URL {
                                 placeholderContext.commitInsertion(dataSourceUpdates: { [unowned self] insertionIndexPath in
-                                    self.data.insert((url.imageURL, Double(aspectRatio)), at: insertionIndexPath.item)
+                                    self.gallery.data.insert(Gallery.GalleryData(url: url.imageURL, aspectRatio: Double(aspectRatio)), at: insertionIndexPath.item)
                                     self.documentChanged()
                                 })
                             } else {

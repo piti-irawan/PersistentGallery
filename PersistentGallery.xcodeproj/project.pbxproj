@@ -9,23 +9,31 @@
 /* Begin PBXBuildFile section */
 		4610818F233D755500435786 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4610818E233D755400435786 /* AppDelegate.swift */; };
 		46108191233D755500435786 /* DocumentBrowserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108190233D755500435786 /* DocumentBrowserViewController.swift */; };
-		46108193233D755500435786 /* DocumentViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108192233D755500435786 /* DocumentViewController.swift */; };
-		46108195233D755500435786 /* Document.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108194233D755500435786 /* Document.swift */; };
+		46108195233D755500435786 /* GalleryDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108194233D755500435786 /* GalleryDocument.swift */; };
 		46108198233D755500435786 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 46108196233D755500435786 /* Main.storyboard */; };
 		4610819A233D755500435786 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 46108199233D755500435786 /* Assets.xcassets */; };
 		4610819D233D755500435786 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4610819B233D755500435786 /* LaunchScreen.storyboard */; };
+		461081A7233D7BDA00435786 /* GalleryCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461081A4233D7BDA00435786 /* GalleryCollectionViewCell.swift */; };
+		461081A8233D7BDA00435786 /* GalleryScrollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461081A5233D7BDA00435786 /* GalleryScrollViewController.swift */; };
+		461081A9233D7BDA00435786 /* GalleryCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461081A6233D7BDA00435786 /* GalleryCollectionViewController.swift */; };
+		461081AB233D7C8C00435786 /* Gallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461081AA233D7C8C00435786 /* Gallery.swift */; };
+		461081AD233D7E6900435786 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461081AC233D7E6900435786 /* Utilities.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		4610818B233D755400435786 /* PersistentGallery.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PersistentGallery.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4610818E233D755400435786 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		46108190233D755500435786 /* DocumentBrowserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentBrowserViewController.swift; sourceTree = "<group>"; };
-		46108192233D755500435786 /* DocumentViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentViewController.swift; sourceTree = "<group>"; };
-		46108194233D755500435786 /* Document.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Document.swift; sourceTree = "<group>"; };
+		46108194233D755500435786 /* GalleryDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryDocument.swift; sourceTree = "<group>"; };
 		46108197233D755500435786 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		46108199233D755500435786 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4610819C233D755500435786 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4610819E233D755500435786 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		461081A4233D7BDA00435786 /* GalleryCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewCell.swift; sourceTree = "<group>"; };
+		461081A5233D7BDA00435786 /* GalleryScrollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryScrollViewController.swift; sourceTree = "<group>"; };
+		461081A6233D7BDA00435786 /* GalleryCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryCollectionViewController.swift; sourceTree = "<group>"; };
+		461081AA233D7C8C00435786 /* Gallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gallery.swift; sourceTree = "<group>"; };
+		461081AC233D7E6900435786 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,10 +67,14 @@
 			isa = PBXGroup;
 			children = (
 				4610818E233D755400435786 /* AppDelegate.swift */,
-				46108190233D755500435786 /* DocumentBrowserViewController.swift */,
-				46108192233D755500435786 /* DocumentViewController.swift */,
-				46108194233D755500435786 /* Document.swift */,
 				46108196233D755500435786 /* Main.storyboard */,
+				46108190233D755500435786 /* DocumentBrowserViewController.swift */,
+				461081A6233D7BDA00435786 /* GalleryCollectionViewController.swift */,
+				461081A4233D7BDA00435786 /* GalleryCollectionViewCell.swift */,
+				461081A5233D7BDA00435786 /* GalleryScrollViewController.swift */,
+				46108194233D755500435786 /* GalleryDocument.swift */,
+				461081AA233D7C8C00435786 /* Gallery.swift */,
+				461081AC233D7E6900435786 /* Utilities.swift */,
 				46108199233D755500435786 /* Assets.xcassets */,
 				4610819B233D755500435786 /* LaunchScreen.storyboard */,
 				4610819E233D755500435786 /* Info.plist */,
@@ -141,9 +153,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46108195233D755500435786 /* Document.swift in Sources */,
-				46108193233D755500435786 /* DocumentViewController.swift in Sources */,
+				461081A8233D7BDA00435786 /* GalleryScrollViewController.swift in Sources */,
+				46108195233D755500435786 /* GalleryDocument.swift in Sources */,
+				461081AB233D7C8C00435786 /* Gallery.swift in Sources */,
+				461081A7233D7BDA00435786 /* GalleryCollectionViewCell.swift in Sources */,
 				46108191233D755500435786 /* DocumentBrowserViewController.swift in Sources */,
+				461081A9233D7BDA00435786 /* GalleryCollectionViewController.swift in Sources */,
+				461081AD233D7E6900435786 /* Utilities.swift in Sources */,
 				4610818F233D755500435786 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

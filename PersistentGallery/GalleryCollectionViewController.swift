@@ -81,13 +81,22 @@ class GalleryCollectionViewController: UICollectionViewController, UICollectionV
             let cellData = gallery.data[indexPath.item]
             galleryCollectionViewCell.spinner.startAnimating()
             galleryCollectionViewCell.imageView.image = nil
-            DispatchQueue.global(qos: .userInitiated).async {
-                let urlContents = try? Data(contentsOf: cellData.url)
-                if let imageData = urlContents {
-                    DispatchQueue.main.async {
-                        galleryCollectionViewCell.imageView.image = UIImage(data: imageData)
-                        galleryCollectionViewCell.spinner.stopAnimating()
-                    }
+            let request = URLRequest(url: cellData.url)
+            if let cachedResponse = URLCache.shared.cachedResponse(for: request), let image = UIImage(data: cachedResponse.data) {
+                galleryCollectionViewCell.imageView.image = image
+                galleryCollectionViewCell.spinner.stopAnimating()
+            } else {
+                DispatchQueue.global(qos: .userInitiated).async {
+                    URLSession.shared.dataTask(with: request, completionHandler: { (data, response, error) in
+                        if let response = response, let data = data, let image = UIImage(data: data) {
+                            let cachedResponse = CachedURLResponse(response: response, data: data)
+                            URLCache.shared.storeCachedResponse(cachedResponse, for: request)
+                            DispatchQueue.main.async {
+                                galleryCollectionViewCell.imageView.image = image
+                                galleryCollectionViewCell.spinner.stopAnimating()
+                            }
+                        }
+                    }).resume()
                 }
             }
         }
